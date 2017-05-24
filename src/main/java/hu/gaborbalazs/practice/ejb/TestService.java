@@ -1,38 +1,61 @@
 package hu.gaborbalazs.practice.ejb;
 
+import java.text.MessageFormat;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
+import org.jboss.logging.Logger;
 
 import hu.gaborbalazs.practice.entity.TestEntity;
 
 /**
- * This service does some JPA operations. The purpose of this entire test
- * is just to see whether the data source can be used so the actual operations
- * don't matter much.
  * 
- * @author Arjan Tijms
+ * @author gaborb
  *
  */
-@Stateless
+//@Stateless
 public class TestService {
+	
+	Logger logger = Logger.getLogger(TestService.class);
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Inject
+    private EntityManager em;
 
     public void saveNewEntity() {
+    	logger.info(">> saveNewEntity()");
 
         TestEntity testEntity = new TestEntity();
         testEntity.setValue("mytest");
 
-        entityManager.persist(testEntity);
+        em.persist(testEntity);
+        
+        logger.info("<< saveNewEntity()");
     }
 
     public List<TestEntity> getAllEntities() {
-        return entityManager.createQuery("SELECT _testEntity FROM TestEntity _testEntity", TestEntity.class)
-            .getResultList();
+    	logger.info(">> getAllEntities()");
+    	
+    	List<TestEntity> entities = em.createQuery("SELECT _testEntity FROM TestEntity _testEntity", TestEntity.class)
+                .getResultList();;
+    	
+    	logger.info(MessageFormat.format("<< getAllEntities(): [{0}]", entities));
+    	
+        return entities;
+    }
+    
+    public int nativeQueryTest() {
+    	logger.info(">> nativeQueryTest()");
+    	
+    	Query query = em.createNativeQuery("SELECT * FROM test_native");
+    	int rows = query.getResultList().size();
+    	
+    	logger.info(MessageFormat.format("<< nativeQueryTest(): [{0}]", rows));
+    	
+    	return rows;
     }
 
 }

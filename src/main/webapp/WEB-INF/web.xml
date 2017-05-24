@@ -3,15 +3,6 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 
-	<!-- This defines the data source that's used by persistence.xml to back 
-		to the JPA persistence unit. The database is embedded within this application 
-		(see the pom.xml of this project). -->
-
-	<data-source>
-		<name>java:app/MyApp/MyDS</name>
-		<class-name>org.h2.jdbcx.JdbcDataSource</class-name>
-		<url>jdbc:h2:mem:test</url>
-	</data-source>
 	<servlet>
 		<display-name>TestServlet</display-name>
 		<servlet-name>TestServlet</servlet-name>
