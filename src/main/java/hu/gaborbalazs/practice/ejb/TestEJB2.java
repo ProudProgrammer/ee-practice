@@ -3,6 +3,7 @@ package hu.gaborbalazs.practice.ejb;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
@@ -12,10 +13,10 @@ import org.jboss.logging.Logger;
  *
  */
 @Stateful
-@ApplicationScoped
 public class TestEJB2 {
 
-	Logger logger = Logger.getLogger(TestEJB.class);
+	@Inject
+	Logger logger;
 	
 	private String welcome = "Hello World";
 	

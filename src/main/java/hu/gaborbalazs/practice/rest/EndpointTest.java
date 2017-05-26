@@ -1,4 +1,4 @@
-package hu.gaborbalazs.rest;
+package hu.gaborbalazs.practice.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

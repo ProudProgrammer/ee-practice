@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.logging.Logger;
+
+import hu.gaborbalazs.practice.bean.DependentBean;
+import hu.gaborbalazs.practice.bean.IHelloGeneratorBean;
 import hu.gaborbalazs.practice.bean.MyBean2;
 import hu.gaborbalazs.practice.ejb.ApplicationScopedEJB;
 import hu.gaborbalazs.practice.ejb.RequestScopedEJB;
@@ -22,38 +26,54 @@ import hu.gaborbalazs.practice.ejb.TestEJB2;
  * @author gaborb
  *
  */
-@WebServlet("/TestServlet2")
-public class TestServlet2 extends HttpServlet {
+@WebServlet("/ScopeTestServlet1")
+public class ScopeTestServlet1 extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
        
 	@Inject
-	TestEJB testEjb;
+	private Logger logger;
 	
 	@Inject
-	TestEJB2 testEjb2;
+	private TestEJB testEjb;
 	
 	@Inject
-	ApplicationScopedEJB applicationScopedEjb;
+	private TestEJB2 testEjb2;
 	
 	@Inject
-	SessionScopedEJB sessionScopedEjb;
+	private ApplicationScopedEJB applicationScopedEjb;
 	
 	@Inject
-	RequestScopedEJB requestScopedEjb;
+	private SessionScopedEJB sessionScopedEjb;
 	
 	@Inject
-	MyBean2 myBean2;
+	private RequestScopedEJB requestScopedEjb;
 	
-    public TestServlet2() {
+	@Inject
+	private DependentBean dependentBean;
+	
+	@Inject
+	private MyBean2 myBean2;
+	
+	@Inject
+	private IHelloGeneratorBean helloGeneratorBean;
+	
+	@Inject
+	private String message;
+	
+    public ScopeTestServlet1() {
         super();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	logger.info(">> processRequest(request, response)");
+    	
     	response.setContentType("text/html;charset=UTF-8");
     	PrintWriter out = response.getWriter();
     	applicationScopedEjb.increaseValue();
     	sessionScopedEjb.increaseValue();
     	requestScopedEjb.increaseValue();
+    	dependentBean.increaseValue();
     	out.println("<html>");
     	out.println("<head>");
     	out.println("<title>TestServlet2</title>");
@@ -63,14 +83,19 @@ public class TestServlet2 extends HttpServlet {
     	out.println("<div>");
     	out.println("Welcome message: " + testEjb.getWelcome() + "<br />");
     	out.println("Welcome message 2: " + testEjb2.getWelcome() + "<br />");
+    	out.println("Injected welcome message: " + message + "<br />");
     	out.println("AtomicInt addAndGetInt(5): " + myBean2.addAndGetInt(5) + "<br />");
     	out.println("Application scoped value: " + applicationScopedEjb.getValue() + "<br />");
     	out.println("Session scoped value: " + sessionScopedEjb.getValue() + "<br />");
     	out.println("Request scoped value: " + requestScopedEjb.getValue() + "<br />");
+    	out.println("Dependent scoped value: " + dependentBean.getValue() + "<br />");
+    	out.println("HelloGenerator message: " + helloGeneratorBean.getHello());
     	out.println("</div>");
     	out.println("</body>");
     	out.println("</html>");
     	out.close();
+    	
+    	logger.info("<< processRequest(request, response)");
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

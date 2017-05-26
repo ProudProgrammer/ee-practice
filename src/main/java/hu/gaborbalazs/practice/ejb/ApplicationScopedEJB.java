@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
@@ -16,7 +17,8 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class ApplicationScopedEJB {
 
-	Logger logger = Logger.getLogger(ApplicationScopedEJB.class);
+	@Inject
+	Logger logger;
 	
 	private int value;
 	

@@ -1,4 +1,4 @@
-package hu.gaborbalazs.rest;
+package hu.gaborbalazs.practice.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

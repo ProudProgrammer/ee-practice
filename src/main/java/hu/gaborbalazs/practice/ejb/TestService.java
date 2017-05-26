@@ -3,6 +3,7 @@ package hu.gaborbalazs.practice.ejb;
 import java.text.MessageFormat;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -16,7 +17,7 @@ import hu.gaborbalazs.practice.entity.TestEntity;
  * @author gaborb
  *
  */
-//@Stateless
+@Stateless
 public class TestService {
 	
 	Logger logger = Logger.getLogger(TestService.class);

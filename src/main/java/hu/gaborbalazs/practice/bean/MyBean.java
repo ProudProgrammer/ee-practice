@@ -9,7 +9,6 @@ import javax.inject.Named;
 import hu.gaborbalazs.practice.model.Person;
 
 @Named
-@ApplicationScoped
 public class MyBean {
 
     String commandLink;
