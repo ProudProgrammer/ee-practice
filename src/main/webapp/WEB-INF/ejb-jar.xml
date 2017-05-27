@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
 	<enterprise-beans>
 		<session>
-			<ejb-name>TestService</ejb-name>
+			<ejb-name>DBServiceEJB</ejb-name>
 			<local-bean />
-			<ejb-class>hu.gaborbalazs.practice.ejb.TestService</ejb-class>
+			<ejb-class>hu.gaborbalazs.practice.ejb.DBServiceEJB</ejb-class>
 			<session-type>Stateless</session-type>
 			<transaction-type>Container</transaction-type>
 		</session>

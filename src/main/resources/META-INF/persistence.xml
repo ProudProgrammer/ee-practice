@@ -6,9 +6,9 @@
 	<persistence-unit name="testPU" transaction-type="JTA">
 		<jta-data-source>java:/MySqlDS</jta-data-source>
 		<class>hu.gaborbalazs.practice.entity.TestEntity</class>
-
 		<properties>
-			<property name="wildfly.jpa.twophasebootstrap" value="false" />
+			<property name="javax.persistence.schema-generation.database.action"
+				value="drop-and-create" />
 		</properties>
 	</persistence-unit>
 

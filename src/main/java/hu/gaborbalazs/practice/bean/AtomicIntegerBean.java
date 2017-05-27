@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author gaborb
  *
  */
-public class MyBean2 {
+public class AtomicIntegerBean {
 	
 	private AtomicInteger atomicInt = new AtomicInteger();
 	

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import hu.gaborbalazs.practice.ejb.TestService;
+import hu.gaborbalazs.practice.ejb.DBServiceEJB;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	TestService testService;
+	DBServiceEJB testService;
 
 	public TestServlet() {
 		super();

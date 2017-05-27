@@ -18,9 +18,10 @@ import hu.gaborbalazs.practice.entity.TestEntity;
  *
  */
 @Stateless
-public class TestService {
+public class DBServiceEJB {
 	
-	Logger logger = Logger.getLogger(TestService.class);
+	@Inject
+	Logger logger;
 
     @Inject
     private EntityManager em;

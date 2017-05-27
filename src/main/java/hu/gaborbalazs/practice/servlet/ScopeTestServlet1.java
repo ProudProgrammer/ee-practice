@@ -12,14 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
 
+import hu.gaborbalazs.practice.bean.AtomicIntegerBean;
 import hu.gaborbalazs.practice.bean.DependentBean;
 import hu.gaborbalazs.practice.bean.IHelloGeneratorBean;
-import hu.gaborbalazs.practice.bean.MyBean2;
 import hu.gaborbalazs.practice.ejb.ApplicationScopedEJB;
 import hu.gaborbalazs.practice.ejb.RequestScopedEJB;
 import hu.gaborbalazs.practice.ejb.SessionScopedEJB;
 import hu.gaborbalazs.practice.ejb.TestEJB;
 import hu.gaborbalazs.practice.ejb.TestEJB2;
+import hu.gaborbalazs.practice.qualifier.Nice;
+import hu.gaborbalazs.practice.qualifier.Rude;
 
 /**
  * 
@@ -53,10 +55,16 @@ public class ScopeTestServlet1 extends HttpServlet {
 	private DependentBean dependentBean;
 	
 	@Inject
-	private MyBean2 myBean2;
+	private AtomicIntegerBean myBean2;
 	
 	@Inject
 	private IHelloGeneratorBean helloGeneratorBean;
+	
+	@Inject @Rude
+	private IHelloGeneratorBean helloRudeGeneratorBean;
+	
+	@Inject @Nice
+	private IHelloGeneratorBean helloNiceGeneratorBean;
 	
 	@Inject
 	private String message;
@@ -76,20 +84,22 @@ public class ScopeTestServlet1 extends HttpServlet {
     	dependentBean.increaseValue();
     	out.println("<html>");
     	out.println("<head>");
-    	out.println("<title>TestServlet2</title>");
+    	out.println("<title>ScopeTestServlet1</title>");
     	out.println("</head>");
     	out.println("<body>");
-    	out.println("<h2>Hello. I am TestServlet2</h2>");
+    	out.println("<h2>Hello. I am ScopeTestServlet1</h2>");
     	out.println("<div>");
     	out.println("Welcome message: " + testEjb.getWelcome() + "<br />");
     	out.println("Welcome message 2: " + testEjb2.getWelcome() + "<br />");
     	out.println("Injected welcome message: " + message + "<br />");
     	out.println("AtomicInt addAndGetInt(5): " + myBean2.addAndGetInt(5) + "<br />");
-    	out.println("Application scoped value: " + applicationScopedEjb.getValue() + "<br />");
+    	out.println("Application scoped value: " + applicationScopedEjb.getValue() + "<br /><br />");
     	out.println("Session scoped value: " + sessionScopedEjb.getValue() + "<br />");
     	out.println("Request scoped value: " + requestScopedEjb.getValue() + "<br />");
-    	out.println("Dependent scoped value: " + dependentBean.getValue() + "<br />");
-    	out.println("HelloGenerator message: " + helloGeneratorBean.getHello());
+    	out.println("Dependent scoped value: " + dependentBean.getValue() + "<br /></br />");
+    	out.println("HelloGenerator message: " + helloGeneratorBean.getHello() + "<br />");
+    	out.println("HelloRudeGenerator message: " + helloRudeGeneratorBean.getHello() + "<br />");
+    	out.println("HelloNiceGenerator message: " + helloNiceGeneratorBean.getHello() + "<br />");
     	out.println("</div>");
     	out.println("</body>");
     	out.println("</html>");

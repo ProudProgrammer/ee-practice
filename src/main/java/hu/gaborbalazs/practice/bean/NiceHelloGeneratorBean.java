@@ -1,8 +1,8 @@
 package hu.gaborbalazs.practice.bean;
 
-import javax.enterprise.inject.Alternative;
+import hu.gaborbalazs.practice.qualifier.Nice;
 
-@Alternative
+@Nice
 public class NiceHelloGeneratorBean implements IHelloGeneratorBean {
 
 	@Override

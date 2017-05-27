@@ -1,15 +1,14 @@
-package hu.gaborbalazs.practice.bean;
+package hu.gaborbalazs.practice.component;
 
 import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
 import hu.gaborbalazs.practice.model.Person;
 
-@Named
-public class MyBean {
+@Named("myBean")
+public class BackedBean {
 
     String commandLink;
     String commandLinkLabel;
