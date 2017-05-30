@@ -1,15 +1,18 @@
 package hu.gaborbalazs.practice.model;
 
-/**
- * 
- * @author gaborb
- *
- */
-public class Person {
-    private int id;
-    private String name;
+import java.io.Serializable;
+import java.text.MessageFormat;
 
-    public Person(int id, String name) {
+public class PersonDto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private int id;
+    private String name;
+    
+    public PersonDto() {}
+
+    public PersonDto(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -28,5 +31,9 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String toString() {
+    	return MessageFormat.format("[Person:[id={0}, name={1}]]", id, name);
     }
 }

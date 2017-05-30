@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+	<title>Create a new Person</title>
+</h:head>
+<h:body>
+	<h1>Create a new Person</h1>
+	<hr />
+	<h:form>
+		<table border="0">
+			<tr>
+				<td><h:outputLabel value="ID : " /></td>
+				<td><h:inputText value="#{personController.personDto.id}" /></td>
+			</tr>
+			<tr>
+				<td><h:outputLabel value="Name :" /></td>
+				<td><h:inputText value="#{personController.personDto.name}" /></td>
+			</tr>
+		</table>
+		<h:commandButton value="Create a person"
+			action="#{personController.createPerson}" styleClass="submit" />
+	</h:form>
+	<hr />
+	<em>Gábor Balázs practice</em>
+</h:body>
+</html>

@@ -1,17 +1,18 @@
 package hu.gaborbalazs.practice.bean;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-/**
- * 
- * @author gaborb
- *
- */
-public class DependentBean {
+@SessionScoped
+public class SessionScopedBean implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	Logger logger;

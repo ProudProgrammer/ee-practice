@@ -1,17 +1,14 @@
-package hu.gaborbalazs.practice.bean;
+package hu.gaborbalazs.practice.ejb;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
 
-/**
- * 
- * @author gaborb
- *
- */
-public class DependentBean {
+@Stateless
+public class StatelessEJB {
 
 	@Inject
 	Logger logger;

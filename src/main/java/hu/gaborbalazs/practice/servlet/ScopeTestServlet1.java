@@ -2,6 +2,7 @@ package hu.gaborbalazs.practice.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -12,14 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.logging.Logger;
 
-import hu.gaborbalazs.practice.bean.AtomicIntegerBean;
+import hu.gaborbalazs.practice.bean.ApplicationScopedBean;
 import hu.gaborbalazs.practice.bean.DependentBean;
 import hu.gaborbalazs.practice.bean.IHelloGeneratorBean;
-import hu.gaborbalazs.practice.ejb.ApplicationScopedEJB;
-import hu.gaborbalazs.practice.ejb.RequestScopedEJB;
-import hu.gaborbalazs.practice.ejb.SessionScopedEJB;
-import hu.gaborbalazs.practice.ejb.TestEJB;
-import hu.gaborbalazs.practice.ejb.TestEJB2;
+import hu.gaborbalazs.practice.bean.RequestScopedBean;
+import hu.gaborbalazs.practice.bean.SessionScopedBean;
+import hu.gaborbalazs.practice.ejb.DBServiceEJB;
+import hu.gaborbalazs.practice.ejb.StatefulApplicationScopedEJB;
+import hu.gaborbalazs.practice.ejb.StatefulRequestScopedEJB;
+import hu.gaborbalazs.practice.ejb.StatefulSessionScopedEJB;
+import hu.gaborbalazs.practice.ejb.StatelessEJB;
 import hu.gaborbalazs.practice.qualifier.Nice;
 import hu.gaborbalazs.practice.qualifier.Rude;
 
@@ -37,69 +40,97 @@ public class ScopeTestServlet1 extends HttpServlet {
 	private Logger logger;
 	
 	@Inject
-	private TestEJB testEjb;
+	private DBServiceEJB dBServiceEJB;
 	
 	@Inject
-	private TestEJB2 testEjb2;
+	private StatefulApplicationScopedEJB statefulApplicationScopedEjb;
 	
 	@Inject
-	private ApplicationScopedEJB applicationScopedEjb;
+	private StatefulSessionScopedEJB statefulSessionScopedEjb;
 	
 	@Inject
-	private SessionScopedEJB sessionScopedEjb;
+	private StatefulRequestScopedEJB statefulRequestScopedEjb;
 	
 	@Inject
-	private RequestScopedEJB requestScopedEjb;
+	private StatelessEJB statelessEJB;
+	
+	@Inject
+	private ApplicationScopedBean applicationScopedBean;
+	
+	@Inject
+	private SessionScopedBean sessionScopedBean;
+	
+	@Inject
+	private RequestScopedBean requestScopedBean;
 	
 	@Inject
 	private DependentBean dependentBean;
 	
 	@Inject
-	private AtomicIntegerBean myBean2;
-	
-	@Inject
 	private IHelloGeneratorBean helloGeneratorBean;
 	
 	@Inject @Rude
-	private IHelloGeneratorBean helloRudeGeneratorBean;
+	private IHelloGeneratorBean rudeHelloGeneratorBean;
 	
 	@Inject @Nice
-	private IHelloGeneratorBean helloNiceGeneratorBean;
+	private IHelloGeneratorBean niceHelloGeneratorBean;
 	
 	@Inject
-	private String message;
+	private String producedMessage;
+	
+	@Inject
+	private double producedRandomNumber;
 	
     public ScopeTestServlet1() {
         super();
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
     	logger.info(">> processRequest(request, response)");
     	
     	response.setContentType("text/html;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-    	applicationScopedEjb.increaseValue();
-    	sessionScopedEjb.increaseValue();
-    	requestScopedEjb.increaseValue();
+    	
+    	dBServiceEJB.saveNewEntity();
+    	
+    	statefulApplicationScopedEjb.increaseValue();
+    	statefulSessionScopedEjb.increaseValue();
+    	statefulRequestScopedEjb.increaseValue();
+    	statelessEJB.increaseValue();
+    	
+    	applicationScopedBean.increaseValue();
+    	sessionScopedBean.increaseValue();
+    	requestScopedBean.increaseValue();
     	dependentBean.increaseValue();
+    	
     	out.println("<html>");
     	out.println("<head>");
-    	out.println("<title>ScopeTestServlet1</title>");
+    	out.println(MessageFormat.format("<title>{0}</title>", getClass().getSimpleName()));
     	out.println("</head>");
     	out.println("<body>");
-    	out.println("<h2>Hello. I am ScopeTestServlet1</h2>");
+    	out.println(MessageFormat.format("<h2>Hello. I am {0}</h2>", getClass().getSimpleName()));
     	out.println("<div>");
-    	out.println("Welcome message: " + testEjb.getWelcome() + "<br />");
-    	out.println("Welcome message 2: " + testEjb2.getWelcome() + "<br />");
-    	out.println("Injected welcome message: " + message + "<br />");
-    	out.println("AtomicInt addAndGetInt(5): " + myBean2.addAndGetInt(5) + "<br />");
-    	out.println("Application scoped value: " + applicationScopedEjb.getValue() + "<br /><br />");
-    	out.println("Session scoped value: " + sessionScopedEjb.getValue() + "<br />");
-    	out.println("Request scoped value: " + requestScopedEjb.getValue() + "<br />");
-    	out.println("Dependent scoped value: " + dependentBean.getValue() + "<br /></br />");
+    	
+    	out.println("DBService getAllEntities().size(): " + dBServiceEJB.getAllEntities().size() + "<br /></br />");
+    	
+    	out.println("Stateful Application scoped EJB value: " + statefulApplicationScopedEjb.getValue() + "<br />");
+    	out.println("Stateful Session scoped EJB value: " + statefulSessionScopedEjb.getValue() + "<br />");
+    	out.println("Stateful Request scoped EJB value: " + statefulRequestScopedEjb.getValue() + "<br />");
+    	out.println("Stateless EJB value: " + statelessEJB.getValue() + "<br /><br />");
+    	
+    	out.println("Application scoped Bean value: " + applicationScopedBean.getValue() + "<br />");
+    	out.println("Session scoped Bean value: " + sessionScopedBean.getValue() + "<br />");
+    	out.println("Request scoped Bean value: " + requestScopedBean.getValue() + "<br />");
+    	out.println("Dependent scoped Bean value: " + dependentBean.getValue() + "<br /></br />");
+    	
     	out.println("HelloGenerator message: " + helloGeneratorBean.getHello() + "<br />");
-    	out.println("HelloRudeGenerator message: " + helloRudeGeneratorBean.getHello() + "<br />");
-    	out.println("HelloNiceGenerator message: " + helloNiceGeneratorBean.getHello() + "<br />");
+    	out.println("RudeHelloGenerator message: " + rudeHelloGeneratorBean.getHello() + "<br />");
+    	out.println("NiceHelloGenerator message: " + niceHelloGeneratorBean.getHello() + "<br /><br />");
+    	
+    	out.println("Injected message: " + producedMessage + "<br />");
+    	out.println("Injected random number (1-1000): " + producedRandomNumber + "<br />");
+    	
     	out.println("</div>");
     	out.println("</body>");
     	out.println("</html>");

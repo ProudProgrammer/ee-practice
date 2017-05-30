@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 
-import hu.gaborbalazs.practice.model.Person;
+import hu.gaborbalazs.practice.entity.Person;
 
 @Named("myBean")
 public class BackedBean {

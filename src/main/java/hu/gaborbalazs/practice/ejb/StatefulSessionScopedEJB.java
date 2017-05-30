@@ -1,7 +1,9 @@
-package hu.gaborbalazs.practice.bean;
+package hu.gaborbalazs.practice.ejb;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
@@ -11,8 +13,11 @@ import org.jboss.logging.Logger;
  * @author gaborb
  *
  */
-public class DependentBean {
-
+@Stateful
+//@StatefulTimeout(value = 5, unit = TimeUnit.SECONDS)
+@SessionScoped
+public class StatefulSessionScopedEJB {
+	
 	@Inject
 	Logger logger;
 	

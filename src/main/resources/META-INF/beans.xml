@@ -5,5 +5,9 @@
 	<alternatives>
 		<class>hu.gaborbalazs.practice.bean.AlternativeHelloGeneratorBean</class>
 	</alternatives>
+	
+	<interceptors>
+		<class>hu.gaborbalazs.practice.interceptor.AuthenticationInterceptor</class>
+	</interceptors>
 
 </beans>

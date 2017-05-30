@@ -3,7 +3,7 @@ package hu.gaborbalazs.practice.ejb;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.jboss.logging.Logger;
@@ -14,8 +14,8 @@ import org.jboss.logging.Logger;
  *
  */
 @Stateful
-@ApplicationScoped
-public class ApplicationScopedEJB {
+@RequestScoped
+public class StatefulRequestScopedEJB {
 
 	@Inject
 	Logger logger;
@@ -31,11 +31,11 @@ public class ApplicationScopedEJB {
 	
 	@PostConstruct
 	private void postConstruct() {
-		logger.info("@PostConstruct - ApplicationScopedEJB");
+		logger.info("@PostConstruct - " + getClass().getSimpleName());
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		logger.info("@PreDestroy - ApplicationScopedEJB");
+		logger.info("@PreDestroy - " + getClass().getSimpleName());
 	}
 }
